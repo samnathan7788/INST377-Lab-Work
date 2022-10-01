@@ -1,3 +1,10 @@
+/* eslint-disable brace-style */
+/* eslint-disable indent */
+/* eslint-disable operator-assignment */
+/* eslint-disable space-infix-ops */
+/* eslint-disable eqeqeq */
+/* eslint-disable quotes */
+/* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
 /*
   Welcome to Javascript!
@@ -7,10 +14,10 @@
 */
 /* eslint-enable max-len */
 // set our first slide's position to "0", the opening position in an array
-const slidePosition = 0;
+let slidePosition = 0;
 
 // gather a reference to every slide we're using via the class name and querySelectorAll
-const slides = document.querySelectorAll('.carousel_item');
+const slides = document.querySelectorAll('.carousel_item img');
 
 // change that "NodeList" into a Javascript "array", to get access to "array methods"
 const slidesArray = Array.from(slides);
@@ -35,6 +42,16 @@ function moveToNextSlide() {
     and if so, sets your slidePosition to the first index of an array
     if not, set the slidePosition to the current position plus one
   */
+  if (slidePosition == 3) {
+    slidesArray[slidePosition].classList="hidden";
+    slidePosition=0;
+    slidesArray[slidePosition].classList="visible";
+  }
+  else {
+    slidesArray[slidePosition].classList="hidden";
+    slidePosition=slidePosition+1;
+    slidesArray[slidePosition].classList="visible";
+  }
   updateSlidePosition(); // this is how you call a function within a function
 }
 function moveToPrevSlide() {
@@ -45,6 +62,16 @@ function moveToPrevSlide() {
     and if so, sets your slidePosition to the last slide position in totalSlides
     if not, set the slidePosition to the current position minus one
   */
+    if (slidePosition == 0) {
+      slidesArray[slidePosition].classList="hidden";
+      slidePosition=3;
+      slidesArray[slidePosition].classList="visible";
+    }
+    else {
+      slidesArray[slidePosition].classList="hidden";
+      slidePosition=slidePosition-1;
+      slidesArray[slidePosition].classList="visible";
+    }
   updateSlidePosition();
 }
 
