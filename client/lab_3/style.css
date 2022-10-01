@@ -258,9 +258,11 @@ div.carousel {
 .next:focus {
   margin: 0;
   /* Pick a good border colour and check out how it works with your buttons */
+  border-color: #4a4a4a;
 }
 
 .prev:hover,
 .next:hover {
   /* Pick a good background colour for your hover pseudoclass */
+  background-color:hsla(120, 100%, 50%, 0.482);
 }
