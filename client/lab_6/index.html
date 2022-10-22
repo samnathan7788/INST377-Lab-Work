@@ -7,3 +7,51 @@
 
     Try placing it at the same level in your element tree as your Submit button
 -->
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+        
+    <div class="header">
+        <h1>Prof A's Labs For INST377</h1>
+    </div>
+    <div class="wrapper">
+        <div class="container">
+            <div class="box left_section">
+                <h2>Form Inputs</h2>
+                <div class="box">
+                    <form action="/api" class="main_form">
+                        <label for="resto">Restaurant Name</label>
+                        <input type="text" id="resto" name="resto" />
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+                
+            </div>
+            
+            <div>
+                <div class="box right_section">
+                    <h2>Local Restaurants</h2>
+                    <div class="box" id="listOfRestaurants">
+                        A list of Restaurants from an api
+                    </div>
+                </div>
+                
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="footer">
+        YOUR GITHUB ACCOUNT NAME
+        <a href='https://github.com/samnathan7788/INST377-Lab-Work'>samnathan7788</a>.
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
