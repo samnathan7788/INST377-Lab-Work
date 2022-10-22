@@ -1,3 +1,9 @@
+/* eslint-disable brace-style */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable quotes */
+/* eslint-disable keyword-spacing */
+/* eslint-disable prefer-const */
+/* eslint-disable prefer-destructuring */
 /* eslint-disable max-len */
 
 /*
@@ -27,6 +33,16 @@ function injectHTML(list) {
     - using a .forEach method, inject a list element into your index.html for every element in the list
     - Display the name of that restaurant and what category of food it is
 */
+  let div = document.getElementById("listOfRestaurants");
+  while (div.firstChild) {
+    div.firstChild.remove();
+  }
+  for(let i = 0; i < 15; i += 1) 
+  {
+    let li = document.createElement('li');
+    li.innerText = list[i].name;
+    div.appendChild(li);
+  }
 }
 
 function processRestaurants(list) {
@@ -50,6 +66,24 @@ function processRestaurants(list) {
     - Return only their name, category, and location
     - Return the new list of 15 restaurants so we can work on it separately in the HTML injector
   */
+
+  // Shuffle array
+  const shuffled = list.sort(() => 0.5 - Math.random());
+
+  // Get sub-array of first n elements after shuffled
+  let items = shuffled.slice(0, 15);
+
+  const newItems = [];
+  for (let i = 0; i < 15; i += 1) 
+  {
+    const name = items[i].name;
+    const category = items[i].category;
+    const geocoded = items[i].geocoded;
+    const obj = {name: name, category: category, geocoded: geocoded};
+    newItems.push(obj);
+  }
+
+  return newItems;
 }
 
 async function mainEvent() {
@@ -70,7 +104,7 @@ async function mainEvent() {
     This next line goes to the request for 'GET' in the file at /server/routes/foodServiceRoutes.js
     It's at about line 27 - go have a look and see what we're retrieving and sending back.
    */
-  const results = await fetch('/api/foodServicesPG');
+  const results = await fetch('/api/foodServicePG');
   const arrayFromJson = await results.json(); // here is where we get the data from our request as JSON
 
   /*
