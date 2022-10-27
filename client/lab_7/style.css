@@ -1,180 +1,372 @@
-/* eslint-disable space-before-blocks */
-/* eslint-disable indent */
-/* eslint-disable brace-style */
-/* eslint-disable no-trailing-spaces */
-/* eslint-disable quotes */
-/* eslint-disable keyword-spacing */
-/* eslint-disable prefer-const */
-/* eslint-disable prefer-destructuring */
-/* eslint-disable max-len */
-
-/*
-  Hook this script to index.html
-  by adding `<script src="script.js">` just before your closing `</body>` tag
+/* 
+    New code bonus: pure CSS data loading icon
+    This comes from loading.io/css - it's nice to show that something is happening!
 */
-
-/*
-  ## Utility Functions
-    Under this comment place any utility functions you need - like an inclusive random number selector
-    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-*/
-
-function injectHTML(list) {
-    console.log('fired injectHTML');
-    /*
-    ## JS and HTML Injection
-      There are a bunch of methods to inject text or HTML into a document using JS
-      Mainly, they're considered "unsafe" because they can spoof a page pretty easily
-      But they're useful for starting to understand how websites work
-      the usual ones are element.innerText and element.innerHTML
-      Here's an article on the differences if you want to know more:
-      https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent#differences_from_innertext
+* {
+    box-sizing: border-box;
+  }
   
-    ## What to do in this function
-      - Accept a list of restaurant objects
-      - using a .forEach method, inject a list element into your index.html for every element in the list
-      - Display the name of that restaurant and what category of food it is
+  /* 
+    These rules apply to actual HTML elements with no labelling!
+    So: they style the tags directly
   */
-    let div = document.getElementById("listOfRestaurants");
-    while (div.firstChild) {
-      div.firstChild.remove();
-    }
-    for(let i = 0; i < 15; i += 1) 
-    {
-      let li = document.createElement('li');
-      li.innerText = list[i].name;
-      div.appendChild(li);
-    }
+  
+  html {
+    background-color: #fff;
+    font-size: 16px;
+    min-width: 300px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  
+    /* these are specific to different browsers */
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
   
-  function processRestaurants(list) {
-    console.log('fired restaurants list');
+  body {
+    margin: 0;
+    padding: 0;
   
-    /*
-      ## Process Data Separately From Injecting It
-        This function should accept your 1,000 records
-        then select 15 random records
-        and return an object containing only the restaurant's name, category, and geocoded location
-        So we can inject them using the HTML injection function
-  
-        You can find the column names by carefully looking at your single returned record
-        https://data.princegeorgescountymd.gov/Health/Food-Inspection/umjn-t2iz
-  
-      ## What to do in this function:
-  
-      - Create an array of 15 empty elements (there are a lot of fun ways to do this, and also very basic ways)
-      - using a .map function on that range,
-      - Make a list of 15 random restaurants from your list of 100 from your data request
-      - Return only their name, category, and location
-      - Return the new list of 15 restaurants so we can work on it separately in the HTML injector
-    */
-  
-    // Shuffle array
-    const shuffled = list.sort(() => 0.5 - Math.random());
-  
-    // Get sub-array of first n elements after shuffled
-    let items = shuffled.slice(0, 15);
-  
-    const newItems = [];
-    for (let i = 0; i < 15; i += 1) 
-    {
-      const name = items[i].name;
-      const category = items[i].category;
-      const geocoded = items[i].geocoded;
-      const obj = {name: name, category: category, geocoded: geocoded};
-      newItems.push(obj);
-    }
-  
-    return newItems;
+    font-family: ‘Segoe UI’, Candara, ‘Bitstream Vera Sans’, ‘DejaVu Sans’, ‘Bitsream Vera Sans’, ‘Trebuchet MS’, Verdana, ‘Verdana Ref’, sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    background-color: lightblue;
   }
-
-function filterList(fieldValue, list) {
-    let div = document.getElementById("listOfRestaurants");
-    while (div.firstChild) {
-      div.firstChild.remove();
-    }
-
-    console.log(list.length);
-    for(let i = 0; i < list.length; i += 1) 
-    {
-        let restoName = list[i].name.toLowerCase();
-        if (restoName.includes(fieldValue)){
-            let li = document.createElement('li');
-            li.innerText = list[i].name;
-            div.appendChild(li);
-        }
-    }
-}
   
-  async function mainEvent() {
-    /*
-      ## Main Event
-        Separating your main programming from your side functions will help you organize your thoughts
-        When you're not working in a heavily-commented "learning" file, this also is more legible
-        If you separate your work, when one piece is complete, you can save it and trust it
-    */
   
-    // the async keyword means we can make API requests
-    const form = document.querySelector('.main_form'); // get your main form so you can do JS with it
-    const submit = document.querySelector('button[type="submit"]'); // get a reference to your submit button
-    submit.style.display = 'none'; // let your submit button disappear
+  a {
+    display: inline-block;
+    text-decoration: none;
+  }
   
-    /*
-      Let's get some data from the API - it will take a second or two to load
-      This next line goes to the request for 'GET' in the file at /server/routes/foodServiceRoutes.js
-      It's at about line 27 - go have a look and see what we're retrieving and sending back.
-     */
-    const results = await fetch('/api/foodServicePG');
-    const arrayFromJson = await results.json(); // here is where we get the data from our request as JSON
+  h2 {
+    margin:0;
+    padding:0;
+    padding-bottom:1.5rem;
+  }
   
-    /*
-      Below this comment, we log out a table of all the results using "dot notation"
-      An alternate notation would be "bracket notation" - arrayFromJson["data"]
-      Dot notation is preferred in JS unless you have a good reason to use brackets
-      The 'data' key, which we set at line 38 in foodServiceRoutes.js, contains all 1,000 records we need
-    */
-    console.table(arrayFromJson.data);
-  
-    // in your browser console, try expanding this object to see what fields are available to work with
-    // for example: arrayFromJson.data[0].name, etc
-    console.log(arrayFromJson.data[0]);
-  
-    // this is called "string interpolation" and is how we build large text blocks with variables
-    console.log(`${arrayFromJson.data[0].name} ${arrayFromJson.data[0].category}`);
-  
-    // This IF statement ensures we can't do anything if we don't have information yet
-    if (arrayFromJson.data?.length > 0) { // the question mark in this means "if this is set at all"
-      submit.style.display = 'block'; // let's turn the submit button back on by setting it to display as a block when we have data available
-  
-      // And here's an eventListener! It's listening for a "submit" button specifically being clicked
-      // this is a synchronous event event, because we already did our async request above, and waited for it to resolve
-      form.addEventListener('submit', (submitEvent) => {
-        // This is needed to stop our page from changing to a new URL even though it heard a GET request
-        submitEvent.preventDefault();
-  
-        // This constant will have the value of your 15-restaurant collection when it processes
-        const restaurantList = processRestaurants(arrayFromJson.data);
-  
-        // And this function call will perform the "side effect" of injecting the HTML list for you
-        injectHTML(restaurantList);
-  
-        // By separating the functions, we open the possibility of regenerating the list
-        // without having to retrieve fresh data every time
-        // We also have access to some form values, so we could filter the list based on name
-      });
-    }
-
-    const restoFormField = document.getElementById('resto');
-    let fieldValue = "";
-    restoFormField.addEventListener('keyup', (keyupEvent) => {
-        fieldValue = restoFormField.value;
-        filterList(fieldValue, arrayFromJson.data);
-    });
+  form {
+    accent-color: hsla(120, 100%, 50%, 0.482);
   }
   
   /*
-    This last line actually runs first!
-    It's calling the 'mainEvent' function at line 57
-    It runs first because the listener is set to when your HTML content has loaded
+    - These styles use 'class names'
+    - You can apply them by using the 'class' attribute on your HTML
+    - like this: <div class="wrapper">
+    - note that the period vanishes there!
   */
-  document.addEventListener('DOMContentLoaded', async () => mainEvent()); // the async keyword means we can make API requests
+  
+  
+  .wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    flex: 1;
+  }
+  
+  .container {
+    margin: 0 20px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: start;
+    flex:1;
+  }
+  
+  .header {
+    padding-top: none;
+    padding-left: none;
+    padding-right: none;
+    padding-bottom: 1.5rem;
+  }
+  
+  
+  /*
+    This rule implies that the H1 tag lives within another HTML tag
+    It "inherits" some rules from the above
+    Those rules won't apply to an h1 that's outside a block with the class of 'header'
+  */
+  
+  .header h1 {
+    display: block;
+    /* this will push other blocks out of the way */
+  
+    /* colors */
+    background-color: #ffe08a;
+    color: #4a4a4a;
+  
+    /* shapes */
+    border-radius: 6px;
+    font-size: 1.5rem;
+    padding: 1.25rem;
+    margin:0; /* removing the margin on h1 tags means the header pins to the top if we move */
+  
+  
+    /* box-shadows are fancy */
+    box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 10%), 0 0 0 1px rgb(10 10 10 / 2%);
+  }
+  
+  
+  /*
+    Rules can be combined on a block to apply the 'cascade' in order
+    So you can use two classnames in a single class attribute
+    like: <div class="box section">
+  
+    Rules may combine in unexpected ways - remember that the LAST thing written in this file will have "priority"
+    And will be what displays in your client
+  */
+  
+  .box {
+    background-color: rgba(239, 239, 239, 0.40);
+    border: 2px dashed;
+    border-radius: 4px;
+  
+    width: fit-content;
+    height:fit-content;
+    padding: 1.5rem;
+    margin: 0 auto;
+  }
+  
+  .left_section {
+    background-color: rgba(0, 139, 139, 0.8);
+    flex: 0 1 auto;
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+  
+  .right_section {
+    background-color: rgba(255, 224, 138, 0.7);
+    flex: 1 2 auto;
+    margin: 1rem;
+    align-items: center;
+  }
+  
+  /*
+    This block is actually dependent on the "container" block having a flex set on it
+    and the "wrapper" block displaying as a flex column with a "vertical height" (vh) of 100.
+    That serves to cram the footer to the bottom of the page.
+  */
+  
+  .footer {
+    flex-shrink: 0;
+    padding: 1rem;
+    background-color: darkblue;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #ffe08a;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    bottom: 0;
+  }
+  
+  .footer a {
+    color: rgb(245, 185, 23);
+    text-decoration: underline;
+  }
+  
+  /*
+    This is an example of a 'pseudoclass'
+    In this instance, it says what to do if a mouse hovers over a link
+    This is pretty desktop-specific, since there's no hover function on touchscreens
+  */
+  .footer a:hover {
+    /* Hue, saturation, luminosity, alpha */
+    background-color: hsla(0, 0%, 90%, 0.15);
+    /* red, green, blue, alpha */
+    color: rgb(246, 169, 93);
+    text-decoration: none;
+  }
+  
+  .subtitle {
+    color: rgba(0, 0, 0, 0.8);
+    margin: 0px;
+    margin-bottom: 5px;
+  }
+  
+  
+  /* Deploy this with images as direct "children" and the images should pop into shape */
+  .grid {
+    display: flex;
+    justify-content: space-evenly;
+    flex-flow: wrap;
+    width: 350px;
+    height: 350px;
+    margin: 0 auto;
+  }
+  
+  .grid img {
+    width: 150px;
+    height: 150px;
+  }
+  
+  
+  /* Carousel */
+  div.carousel {
+    max-width: 300px;
+    overflow: hidden;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+  }
+  
+  .carousel .slides {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* .carousel_item, */
+  .hidden {
+    display: none;
+  }
+  
+  .visible {
+    display: block;
+  }
+  
+  .carousel_item img {
+    /* 
+      Setting width, rather than max-width or min-width,
+      means annoying pop-ins won't happen
+      but it also means you need to format your images to be compatible
+      or they will stretch weird
+  
+      - try a tall one and see what happens
+      - change the height on a fixed image size and see what happens
+      - now make sure that images are _always_ square
+      - ... there's a reason crop tools are popular in image editors
+     */
+    width: 150px; 
+  }
+  
+  .prev,
+  .next {
+    border: none;
+    margin: 2px;
+    text-align: center;
+    border-radius: 5px;
+    font-weight: bold;
+    height: 45px;
+    padding: 10px;
+    line-height: 0; /* This centers a button's text! */
+    border: 2px solid rgb(99,99,99); /* shorthand for how to do a border */
+  }
+  
+  .prev:focus,
+  .next:focus {
+    margin: 0;
+    /* Pick a good border colour and check out how it works with your buttons */
+    border-color: #4a4a4a;
+  }
+  
+  .prev:hover,
+  .next:hover {
+    /* Pick a good background colour for your hover pseudoclass */
+    background-color:hsla(120, 100%, 50%, 0.482);
+  }
+  
+  /*
+  Form Styles
+  */
+  
+  form input {
+      /* This is a hack to make sure our boxes line up with one another nicely */
+      width: 100%;
+      width: -moz-available;          /* WebKit-based browsers will ignore this. */
+      width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+      width: fill-available;
+  
+      /* here we are setting white space correctly */
+      margin-bottom: 1rem;
+      height: 2rem;
+      border-radius: 4px;
+    }
+  
+    form label {
+      width: 100%;
+      width: -moz-available;          /* WebKit-based browsers will ignore this. */
+      width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+      width: fill-available;
+      align-items: flex-start;
+  
+      display: block; /* this turns the label text into a box we can set margins on */
+      margin-bottom: 0.5rem;
+    }
+  
+  /* How To Write A Media Query For Small Screens */
+  
+  @media only screen and (max-width: 736px){
+      /* Rules in here will only apply when a screen is the correct size */
+      /* check it out by using your developer tools to shrink your screen-size */
+      .container {
+        background-color: rgba(204, 8, 162, 0.65);
+        flex-direction: column;
+      }
+  }
+  
+  .lds-ellipsis {
+      display: inline-block;
+      position: relative;
+      width: 80px;
+      height: 80px;
+    }
+    .lds-ellipsis div {
+      position: absolute;
+      top: 33px;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: #fff;
+      animation-timing-function: cubic-bezier(0, 1, 1, 0);
+    }
+    .lds-ellipsis div:nth-child(1) {
+      left: 8px;
+      animation: lds-ellipsis1 0.6s infinite;
+    }
+    .lds-ellipsis div:nth-child(2) {
+      left: 8px;
+      animation: lds-ellipsis2 0.6s infinite;
+    }
+    .lds-ellipsis div:nth-child(3) {
+      left: 32px;
+      animation: lds-ellipsis2 0.6s infinite;
+    }
+    .lds-ellipsis div:nth-child(4) {
+      left: 56px;
+      animation: lds-ellipsis3 0.6s infinite;
+    }
+    @keyframes lds-ellipsis1 {
+      0% {
+        transform: scale(0);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+    @keyframes lds-ellipsis3 {
+      0% {
+        transform: scale(1);
+      }
+      100% {
+        transform: scale(0);
+      }
+    }
+    @keyframes lds-ellipsis2 {
+      0% {
+        transform: translate(0, 0);
+      }
+      100% {
+        transform: translate(24px, 0);
+      }
+    }
+    
