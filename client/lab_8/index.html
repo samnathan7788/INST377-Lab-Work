@@ -1,0 +1,72 @@
+<!--
+    This is how to build the CSS-only load animation from loading.io    
+    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+
+    This is helpful for showing your client-side users when data is loading,
+    since there's otherwise no sign your app is thinking about something!
+
+    Try placing it at the same level in your element tree as your Submit button
+-->
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
+     integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+     crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+    integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
+    crossorigin=""></script>
+    <title>Document</title>
+</head>
+<body>
+        
+    <div class="header">
+        <h1>Prof A's Labs For INST377</h1>
+    </div>
+    <div class="wrapper">
+        <div class="container">
+            <div class="box left_section">
+                <h2>Form Inputs</h2>
+                <div class="box">
+                    <form action="/api" class="main_form">
+                        <label for="resto">Restaurant Name</label>
+                        <input type="text" id="resto" name="resto" />
+                        <label for="food">Food Type</label>
+                        <input type="text" id="food" name="food" />
+                        <div class="lds-ellipsis" id="lds-ellipsis">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <button type="submit">Load List</button>
+                    </form>
+                </div>
+                
+            </div>
+            
+            <div>
+                <div class="box right_section">
+                    <h2>Local Restaurants Map</h2>
+                    <div class="box" id="map"></div>
+                    <br>
+                    <div class="box" id="listOfRestaurants">
+                        A list of Restaurants from an api
+                    </div>
+                </div>
+                
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="footer">
+        YOUR GITHUB ACCOUNT NAME
+        <a href='https://github.com/samnathan7788/INST377-Lab-Work'>samnathan7788</a>.
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
